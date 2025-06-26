@@ -90,5 +90,31 @@ final class VacataireController extends AbstractController
         ]);
     }
 
+    #[Route('/vacataire/supprimer/{id}', name: 'vacataire_delete', methods: ['GET', 'POST'])]
+    public function delete(
+        int $id,
+        Request $request,
+        EntityManagerInterface $manager,
+        VacataireRepository $vacataireRepository
+    ): Response {
+        $vacataire = $vacataireRepository->find($id);
+
+        if (!$vacataire) {
+            throw $this->createNotFoundException('Vacataire non trouvé');
+        }
+
+        if ($request->isMethod('POST')) {
+            $manager->remove($vacataire);
+            $manager->flush();
+
+            $this->addFlash('success', 'Le vacataire a bien été supprimé !');
+            return $this->redirectToRoute('app_vacataire');
+        }
+
+        return $this->render('pages/vacataire/delete.html.twig', [
+            'vacataire' => $vacataire
+        ]);
+    }
+
 
 }
