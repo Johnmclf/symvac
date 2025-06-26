@@ -11,6 +11,12 @@
     {% endfor %}
     
     <h1>Mes vacataires</h1>
+    
+    <div class="mb-3 text-end">
+        <a href="{{ path('vacataire_new') }}" class="btn btn-success">
+            + Ajouter un vacataire
+        </a>
+    </div>
 
     <table class="table table-hover">
         <thead>
